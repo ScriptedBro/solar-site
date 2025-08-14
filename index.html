@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar Energy Solutions</title>
+    <meta name="description" content="Modern solar panels and batteries. One-page responsive React site with Tailwind CSS." />
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                DEFAULT: "#22c55e",
+                dark: "#166534",
+              },
+            },
+            boxShadow: {
+              glow: "0 10px 30px -10px rgba(34,197,94,0.35)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      /* Decorative background */
+      .bg-grid {
+        background-image:
+          radial-gradient(ellipse at top left, rgba(34,197,94,0.08), transparent 40%),
+          radial-gradient(ellipse at bottom right, rgba(59,130,246,0.08), transparent 40%);
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-slate-800 bg-slate-50">
+    <div id="root"></div>
+
+    <!-- React 18 + Babel (CDN) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useMemo } = React;
+
+      const WHATSAPP_PHONE = "+2348024411052"; // You can include + or spaces; we will sanitize below
+      const WA_PHONE = String(WHATSAPP_PHONE).replace(/\D/g, "");
+
+      function classNames(...classes) {
+        return classes.filter(Boolean).join(" ");
+      }
+
+      function Navbar() {
+        return (
+          <header className="fixed inset-x-0 top-0 z-50">
+            <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="mt-3 mb-3 flex items-center justify-between rounded-2xl bg-white/70 px-4 py-3 shadow-lg ring-1 ring-black/5 backdrop-blur supports-[backdrop-filter]:bg-white/50">
+                <a href="#products" className="flex items-center gap-2">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white shadow-glow">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+                      <path d="M12 3l9 6-9 6-9-6 9-6zm0 8.485l6.727-4.485L12 2.515 5.273 7 12 11.485z"></path>
+                      <path d="M3 13.5l9 6 9-6" opacity=".4"></path>
+                    </svg>
+                  </span>
+                  <span className="text-base font-semibold tracking-tight text-slate-900">Solar Energy</span>
+                </a>
+                <div className="hidden gap-6 md:flex">
+                  <a href="#products" className="text-sm font-medium text-slate-700 hover:text-brand">Home</a>
+                  <a href="#about" className="text-sm font-medium text-slate-700 hover:text-brand">About</a>
+                  <a href="#contact" className="text-sm font-medium text-slate-700 hover:text-brand">Contact</a>
+                </div>
+                <div className="md:hidden">
+                  <a href="#contact" className="inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-sm font-semibold text-white shadow-glow hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-brand/30">Get in touch</a>
+                </div>
+              </div>
+            </nav>
+          </header>
+        );
+      }
+
+      function Hero() {
+        return (
+          <section id="home" className="bg-grid pt-28">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="relative isolate overflow-hidden rounded-3xl bg-white px-6 py-16 shadow-xl ring-1 ring-black/5 sm:px-12">
+                <div className="mx-auto max-w-2xl text-center">
+                  <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Power your home with clean energy</h1>
+                  <p className="mt-3 text-base leading-7 text-slate-600">Explore high-efficiency solar panels and reliable batteries for every installation size. Sustainable, scalable, and built to last.</p>
+                  <div className="mt-6 flex items-center justify-center gap-3">
+                    <a href="#products" className="inline-flex items-center rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-glow hover:bg-emerald-500">Browse Products</a>
+                    <a href="#why" className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300">Why Solar?</a>
+                  </div>
+                </div>
+                <div className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 rounded-full bg-emerald-200/40 blur-3xl"></div>
+                <div className="pointer-events-none absolute -bottom-12 -right-10 h-64 w-64 rounded-full bg-sky-200/40 blur-3xl"></div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function WhySolar() {
+        return (
+          <section id="why" className="py-16 sm:py-20">
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-3xl text-center">
+                <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Why choose solar energy?</h2>
+                <p className="mt-3 text-base leading-7 text-slate-700">
+                  Solar gives you clean, reliable power while reducing electricity bills and protecting against outages.
+                  It is a long‑term investment that increases your energy independence and reduces your carbon footprint.
+                </p>
+              </div>
+
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">$</div>
+                  <h3 className="mt-4 text-base font-semibold text-slate-900">Lower bills</h3>
+                  <p className="mt-1 text-sm text-slate-600">Generate your own electricity and offset grid usage for decades.</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700">⚡</div>
+                  <h3 className="mt-4 text-base font-semibold text-slate-900">Backup power</h3>
+                  <p className="mt-1 text-sm text-slate-600">Pair with batteries to keep essentials on during grid outages.</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700">☀️</div>
+                  <h3 className="mt-4 text-base font-semibold text-slate-900">Clean energy</h3>
+                  <p className="mt-1 text-sm text-slate-600">Reduce emissions and support a sustainable energy future.</p>
+                </div>
+              </div>
+
+              <div className="mt-10 grid gap-6 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:grid-cols-3">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-slate-900">25+ yrs</div>
+                  <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">Typical panel lifespan</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-slate-900">60–90%</div>
+                  <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">Bill reduction (with storage)</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-slate-900">24/7</div>
+                  <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">Power for essentials</div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <a href="#products" className="inline-flex items-center rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-glow hover:bg-emerald-600">
+                  Explore products
+                </a>
+                <a href="#contact" className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300">
+                  Talk to an expert
+                </a>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function ProductCard({ title, image, specs, description }) {
+        const message = useMemo(() => {
+          return encodeURIComponent(
+            `Hello! I'm interested in the ${title}. Could you share more details about availability and installation?`
+          );
+        }, [title]);
+
+        const whatsappUrl = `https://wa.me/${WA_PHONE}?text=${message}`;
+
+        const placeholderSvg =
+          'data:image/svg+xml;utf8,' +
+          encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#e2e8f0"/>
+                  <stop offset="100%" stop-color="#cbd5e1"/>
+                </linearGradient>
+              </defs>
+              <rect width="800" height="600" fill="url(#g)"/>
+              <g fill="#94a3b8">
+                <rect x="160" y="140" width="480" height="320" rx="12" ry="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+                <rect x="190" y="170" width="140" height="90" rx="6"/>
+                <rect x="350" y="170" width="140" height="90" rx="6"/>
+                <rect x="510" y="170" width="100" height="90" rx="6"/>
+                <rect x="190" y="270" width="140" height="90" rx="6"/>
+                <rect x="350" y="270" width="140" height="90" rx="6"/>
+                <rect x="510" y="270" width="100" height="90" rx="6"/>
+              </g>
+            </svg>
+          `);
+
+        const imageCandidates = React.useMemo(() => {
+          const candidates = new Set([image]);
+          const withoutDot = image.replace(/^\.\//, '');
+          candidates.add(withoutDot);
+          if (!image.startsWith('img/') && !image.startsWith('./img/')) {
+            candidates.add(`img/${withoutDot}`);
+            candidates.add(`./img/${withoutDot}`);
+          }
+          const exts = ['jpg', 'jpeg', 'png', 'webp'];
+          const match = withoutDot.match(/^(.*)\.(\w+)$/);
+          if (match) {
+            const base = match[1];
+            exts.forEach((ext) => {
+              candidates.add(`${base}.${ext}`);
+              candidates.add(`img/${base}.${ext}`);
+              candidates.add(`./img/${base}.${ext}`);
+            });
+          }
+          return Array.from(candidates);
+        }, [image]);
+
+        const [currentIndex, setCurrentIndex] = React.useState(0);
+        const [currentSrc, setCurrentSrc] = React.useState(imageCandidates[0]);
+
+        React.useEffect(() => {
+          setCurrentIndex(0);
+          setCurrentSrc(imageCandidates[0]);
+        }, [imageCandidates]);
+
+        function handleImageError() {
+          const nextIndex = currentIndex + 1;
+          if (nextIndex < imageCandidates.length) {
+            setCurrentIndex(nextIndex);
+            setCurrentSrc(imageCandidates[nextIndex]);
+          } else {
+            if (currentSrc !== placeholderSvg) {
+              console.warn(`Image not found for product "${title}". Tried:`, imageCandidates);
+            }
+            setCurrentSrc(placeholderSvg);
+          }
+        }
+
+        return (
+          <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
+              <img src={currentSrc} onError={handleImageError} alt={title} loading="lazy" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent"></div>
+            </div>
+            <div className="flex flex-1 flex-col p-5">
+              <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+              <p className="mt-1 text-sm text-slate-600">{specs}</p>
+              <p className="mt-3 flex-1 text-sm leading-6 text-slate-700">{description}</p>
+              <div className="mt-5">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-300/60"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                    <path d="M20.52 3.48A11.86 11.86 0 0012 0a11.99 11.99 0 00-10 18.63L0 24l5.48-1.99A11.98 11.98 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 21.6c-1.9 0-3.7-.5-5.28-1.48l-.38-.23-3.13 1.14 1.14-3.13-.23-.38A9.59 9.59 0 012.4 12 9.6 9.6 0 1112 21.6zm5.55-7.19c-.3-.15-1.77-.87-2.04-.97-.27-.1-.46-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.63.07-.3-.15-1.27-.47-2.42-1.5-.89-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.59-.9-2.17-.24-.58-.48-.5-.66-.5-.17 0-.37-.02-.56-.02-.2 0-.52.08-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.5 1.7.64.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z" />
+                  </svg>
+                  Message on WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function Products() {
+        const products = [
+          {
+            title: "Monocrystalline Solar Panel 550W",
+            specs: "High efficiency PERC cells, 144 half-cut cells, 21.3% module efficiency",
+            description:
+              "Reliable power output with excellent low‑light performance and robust aluminum frame for harsh weather.",
+            image:
+              "./img/400-Watt-Monocrystalline-Solar-Panel.jpeg",
+          },
+          {
+            title: "Polycrystalline Solar Panel 320W",
+            specs: "Durable design, anti‑PID, tempered glass, ideal for residential roofs",
+            description:
+              "Balanced performance and value. Optimized for real‑world conditions with reliable output over time.",
+            image:
+              "./img/polycrystalline-solar-panel.jpg",
+          },
+          {
+            title: "Lithium Iron Phosphate Battery 5kWh",
+            specs: "LiFePO₄ cells, 6000+ cycles @ 80% DoD, wall‑mount cabinet",
+            description:
+              "High safety and long cycle life. Seamless integration with hybrid inverters for home backup.",
+            image:
+              "./img/Solar Batteries 1.jpg",
+          },
+          {
+            title: "Rack‑Mount LiFePO₄ Battery 10kWh",
+            specs: "48V server‑rack module, smart BMS, CAN/RS485",
+            description:
+              "Scalable energy storage for small commercial sites and larger homes. Modular and serviceable.",
+            image:
+              "./img/Solar Batteries 2.jpg",
+          },
+        ];
+
+        return (
+          <section id="products" className="py-16 sm:py-20">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="mb-8 flex items-end justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Products</h2>
+                  <p className="mt-2 text-sm text-slate-600">Solar panels and batteries built for performance. Click a product to message the seller on WhatsApp.</p>
+                </div>
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {products.map((p) => (
+                  <ProductCard key={p.title} {...p} />
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function About() {
+        return (
+          <section id="about" className="bg-white py-16 sm:py-20">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 sm:p-12">
+                <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">About</h2>
+                <p className="mt-4 text-base leading-7 text-slate-700">
+                  We provide high‑quality solar components and support for clean energy projects. Our selection focuses on
+                  efficiency, durability, and safety—so your system delivers reliable power year after year. Whether you are
+                  upgrading a home, adding backup power, or planning a larger installation, we can help you choose the right
+                  components and get started quickly.
+                </p>
+                <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                      ✓
+                    </span>
+                    <span className="text-sm font-medium text-slate-800">Quality‑first components</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                      ✓
+                    </span>
+                    <span className="text-sm font-medium text-slate-800">Expert guidance</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                      ✓
+                    </span>
+                    <span className="text-sm font-medium text-slate-800">Fast response on WhatsApp</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Contact() {
+        const generalMessage = encodeURIComponent("Hello! I'd like to learn more about your solar products and installation options.");
+        const link = `https://wa.me/${WA_PHONE}?text=${generalMessage}`;
+        return (
+          <section id="contact" className="py-16 sm:py-20">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+              <div className="rounded-3xl border border-slate-200 bg-white p-8 sm:p-12 shadow-sm">
+                <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Contact</h2>
+                <p className="mt-4 text-base leading-7 text-slate-700">
+                  Have a question or need a custom quote? Send a message and we will get back to you shortly.
+                </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-300/60"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                      <path d="M20.52 3.48A11.86 11.86 0 0012 0a11.99 11.99 0 00-10 18.63L0 24l5.48-1.99A11.98 11.98 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.19-3.48-8.52zM12 21.6c-1.9 0-3.7-.5-5.28-1.48l-.38-.23-3.13 1.14 1.14-3.13-.23-.38A9.59 9.59 0 012.4 12 9.6 9.6 0 1112 21.6zm5.55-7.19c-.3-.15-1.77-.87-2.04-.97-.27-.1-.46-.15-.66.15-.2.3-.76.97-.93 1.17-.17.2-.34.22-.63.07-.3-.15-1.27-.47-2.42-1.5-.89-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.59-.9-2.17-.24-.58-.48-.5-.66-.5-.17 0-.37-.02-.56-.02-.2 0-.52.08-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.5 1.7.64.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z" />
+                    </svg>
+                    WhatsApp Us
+                  </a>
+                  <a
+                    href="mailto:4ngelsltd@gmail.com"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                      <path d="M12 13.065L0 6V4l12 7 12-7v2z"></path>
+                      <path d="M0 6v14h24V6l-12 7L0 6z" opacity=".5"></path>
+                    </svg>
+                    Email
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Footer() {
+        const year = new Date().getFullYear();
+        return (
+          <footer className="border-t border-slate-200 bg-white py-8">
+              <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:flex-row sm:px-6 lg:px-8">
+              <p className="text-sm text-slate-600">© {year} Solar Energy — All rights reserved.</p>
+              <div className="flex items-center gap-4 text-sm">
+                <a href="#products" className="text-slate-600 hover:text-brand">Home</a>
+                <a href="#about" className="text-slate-600 hover:text-brand">About</a>
+                <a href="#contact" className="text-slate-600 hover:text-brand">Contact</a>
+              </div>
+            </div>
+          </footer>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <Navbar />
+            <main>
+              <Hero />
+              <WhySolar />
+              <Products />
+              <About />
+              <Contact />
+            </main>
+            <Footer />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+  </html>
+
+
